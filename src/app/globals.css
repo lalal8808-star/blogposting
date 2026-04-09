@@ -1,123 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+@import "tailwindcss/typography";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
-:root {
-  --background: #050505;
-  --foreground: #ffffff;
-  --accent: #3b82f6;
-  --glass: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  :root {
+    --background: #050505;
+    --foreground: #ffffff;
+    --accent: #3b82f6;
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  letter-spacing: -0.011em;
-  -webkit-font-smoothing: antialiased;
-}
+@layer components {
+  /* Premium Glassmorphism */
+  .glass {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
 
-h1, h2, h3, h4 {
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: -0.02em;
-}
+  .glass-hover:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
 
-/* Premium Glassmorphism */
-.glass {
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-}
-
-.glass-hover:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-/* Custom Selection */
-::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: #fff;
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400;
+  }
 }
 
 /* Typography Enhancements for Markdown */
 .prose {
-  max-width: 65ch;
-  line-height: 1.75;
-  font-size: 1.125rem;
+  @apply max-w-none text-neutral-300 leading-relaxed;
 }
 
 .prose h1, .prose h2, .prose h3 {
-  color: #fff;
-  margin-top: 2.5em;
-  margin-bottom: 1em;
-}
-
-.prose p {
-  margin-bottom: 1.5em;
-  color: #d1d5db;
-}
-
-.prose strong {
-  color: #fff;
-  font-weight: 700;
-}
-
-.prose code {
-  font-family: 'JetBrains Mono', monospace;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.2em 0.4em;
-  border-radius: 4px;
-  font-size: 0.9em;
-  color: #60a5fa;
-}
-
-.prose pre {
-  background: #0f172a !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1.5rem !important;
-  border-radius: 12px !important;
-  overflow-x: auto;
+  @apply text-white font-bold mt-10 mb-4 font-['Outfit'];
 }
 
 .prose blockquote {
-  border-left: 4px solid #3b82f6;
-  background: rgba(59, 130, 246, 0.05);
-  padding: 1.5rem 2rem;
-  font-style: italic;
-  font-size: 1.1em;
-  border-radius: 0 12px 12px 0;
-  margin: 2rem 0;
+  @apply border-l-4 border-blue-500 bg-blue-500/5 px-6 py-4 italic rounded-r-xl my-8;
 }
 
-.prose table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 2rem 0;
-  font-size: 0.95rem;
+.prose code {
+  @apply font-mono bg-white/10 px-1.5 py-0.5 rounded text-blue-300;
 }
 
-.prose th {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 12px 16px;
-  text-align: left;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.prose td {
-  padding: 12px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Animated Gradient Text */
-.gradient-text {
-  background: linear-gradient(to right, #60a5fa, #34d399);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.prose pre {
+  @apply bg-[#0f172a] border border-white/10 p-6 rounded-xl overflow-x-auto my-8;
 }
