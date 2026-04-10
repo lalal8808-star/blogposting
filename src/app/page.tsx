@@ -29,7 +29,6 @@ export default async function Home() {
 
       posts = await sql`
         SELECT * FROM posts 
-        WHERE status = 'published' 
         ORDER BY created_at DESC
       `;
     } catch (dbError) {
