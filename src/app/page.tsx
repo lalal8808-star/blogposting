@@ -10,6 +10,23 @@ export default async function Home() {
   if (process.env.DATABASE_URL) {
     try {
       const sql = neon(process.env.DATABASE_URL);
+      
+      // 테이블 자동 생성 (Vercel에서 DB만 달랑 붙여놓은 경우를 대비)
+      await sql`
+        CREATE TABLE IF NOT EXISTS posts (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          title TEXT NOT NULL,
+          slug TEXT UNIQUE NOT NULL,
+          summary TEXT,
+          content TEXT NOT NULL,
+          tags TEXT[],
+          topic TEXT NOT NULL,
+          status TEXT DEFAULT 'draft',
+          created_at TIMESTAMPTZ DEFAULT NOW(),
+          updated_at TIMESTAMPTZ DEFAULT NOW()
+        );
+      `;
+
       posts = await sql`
         SELECT * FROM posts 
         WHERE status = 'published' 

@@ -23,6 +23,23 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   if (process.env.DATABASE_URL) {
     try {
       const sql = neon(process.env.DATABASE_URL);
+      
+      // 테이블 자동 보장
+      await sql`
+        CREATE TABLE IF NOT EXISTS posts (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          title TEXT NOT NULL,
+          slug TEXT UNIQUE NOT NULL,
+          summary TEXT,
+          content TEXT NOT NULL,
+          tags TEXT[],
+          topic TEXT NOT NULL,
+          status TEXT DEFAULT 'draft',
+          created_at TIMESTAMPTZ DEFAULT NOW(),
+          updated_at TIMESTAMPTZ DEFAULT NOW()
+        );
+      `;
+
       const result = await sql`
         SELECT * FROM posts 
         WHERE slug = ${slug} 
