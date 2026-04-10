@@ -16,7 +16,9 @@ export async function generateStaticParams() {
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;  // Next.js 15/16: params는 async
+  const { slug: rawSlug } = await params;  // Next.js 15/16: params는 async
+  // URL 인코딩된 한글 슬러그를 디코딩 (예: %EA%B0%9C → 개)
+  const slug = decodeURIComponent(rawSlug);
   let post: any = null;
 
   // 1. DB 조회 시도
