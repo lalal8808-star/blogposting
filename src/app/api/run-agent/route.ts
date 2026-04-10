@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { autoBloggerGraph } from '@/lib/agents/graph';
 import { savePostToDB } from '@/lib/db';
 
@@ -50,11 +51,14 @@ export async function POST(request: Request) {
     
     console.log("Agent Execution Completed!");
     
-    // 5. Supabase DB에 최종 포스트 저장
+    // 5. DB에 최종 포스트 저장
     if (finalState.finalPost) {
       try {
         await savePostToDB(finalState.finalPost as any, finalState.topic as string);
-        console.log("Post successfully saved to Supabase.");
+        console.log("Post successfully saved to DB.");
+        
+        // 중요: 홈 화면의 캐시를 무효화하여 새로운 글이 즉시 나타나게 함
+        revalidatePath('/');
       } catch (dbError) {
         console.error("Failed to save post to DB:", dbError);
       }
