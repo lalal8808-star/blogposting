@@ -4,7 +4,7 @@ import { WRITER_PROMPT } from "../prompts";
 import { SystemMessage, HumanMessage, AIMessage } from "@langchain/core/messages";
 
 const llm = new ChatGoogleGenerativeAI({
-  model: "gemini-2.0-flash",
+  model: "gemini-3.1-pro-preview",
   temperature: 0.7,
 });
 
